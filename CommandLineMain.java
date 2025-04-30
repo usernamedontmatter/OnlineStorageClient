@@ -15,7 +15,7 @@ class CommandLineMain {
         int port = -1;
         boolean is_argument_valid = true;
         for (int i = 1; i < args.length; ++i) {
-            if (Objects.equals(args[i], "--root_path") || Objects.equals(args[i], "--address") || Objects.equals(args[i], "--port")) {
+            if (Objects.equals(args[i], "--address") || Objects.equals(args[i], "--port")) {
                 if (i == args.length - 1) {
                     System.out.println("It must be at least one argument after \"--address\" and \"--port\"");
                     is_argument_valid = false;
