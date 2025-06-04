@@ -8,13 +8,13 @@ public abstract class Client {
     public Client(String address, int port) {
         socket_manager = new SocketManager(address, port);
     }
-    public void run() throws Exception {
+    protected void run() throws Exception {
         socket_manager.run();
     }
-    public void stop() throws Exception {
+    protected void stop() throws Exception {
         socket_manager.stop();
     }
-    public void refresh() throws Exception {
+    protected void refresh() throws Exception {
         stop();
         run();
     }

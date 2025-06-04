@@ -2,7 +2,6 @@ package clients;
 
 public class CommandClient extends Client{
     // Inner classes
-
     public enum ResponseStatus {
         OK(1),
         UNKNOWN_ERROR(-1),
@@ -56,68 +55,131 @@ public class CommandClient extends Client{
 
     // Commands
     public DirectoryEntry[] show_files(String path) throws Exception {
-        socket_manager.send("show_files " + path);
+        try {
+            run();
+            socket_manager.send("show_files " + path);
 
-        String[] arr = get_response().split(" ");
-        DirectoryEntry[] files = new DirectoryEntry[arr.length/2];
+            String[] arr = get_response().split(" ");
+            DirectoryEntry[] files = new DirectoryEntry[arr.length/2];
+            stop();
 
-        for(int i = 0; i < arr.length/2; ++i) {
-            DirectoryEntryType type = switch (arr[2*i]) {
-                case "file" -> DirectoryEntryType.FILE;
-                case "directory" -> DirectoryEntryType.DIRECTORY;
-                case "" -> null;
-                default -> throw new Exception("Server send incorrect response");
-            };
-            if(type != null) files[i] = new DirectoryEntry(type, arr[2*i + 1]);
+            for(int i = 0; i < arr.length/2; ++i) {
+                DirectoryEntryType type = switch (arr[2*i]) {
+                    case "file" -> DirectoryEntryType.FILE;
+                    case "directory" -> DirectoryEntryType.DIRECTORY;
+                    case "" -> null;
+                    default -> throw new Exception("Server send incorrect response");
+                };
+                if(type != null) files[i] = new DirectoryEntry(type, arr[2*i + 1]);
+            }
+
+            return files;
+        } catch(Exception ex) {
+            stop();
+            throw ex;
         }
-
-        return files;
     }
     public void delete(String path)  throws Exception {
-        socket_manager.send("delete " + path);
-        get_response();
+        try {
+            run();
+            socket_manager.send("delete " + path);
+            get_response();
+            stop();
+        } catch(Exception ex) {
+            stop();
+            throw ex;
+        }
     }
     public void create_file(String file_path, String text)  throws Exception {
-        socket_manager.send("create_file " + file_path + " " + text.length());
-        socket_manager.send(text);
-        get_response();
+        try {
+            run();
+            socket_manager.send("create_file " + file_path + " " + text.length());
+            socket_manager.send(text);
+            get_response();
+            stop();
+        } catch(Exception ex) {
+            stop();
+            throw ex;
+        }
     }
     public void rewrite_file(String file_path, String text)  throws Exception {
-        socket_manager.send("rewrite_file " + file_path + " " + text.length());
-        socket_manager.send(text);
-        get_response();
+        try {
+            run();
+            socket_manager.send("rewrite_file " + file_path + " " + text.length());
+            socket_manager.send(text);
+            get_response();
+            stop();
+        } catch(Exception ex) {
+            stop();
+            throw ex;
+        }
     }
     public void create_or_rewrite_file(String file_path, String text)  throws Exception {
-        socket_manager.send("create_or_rewrite_file " + file_path + " " + text.length());
-        socket_manager.send(text);
-        get_response();
+        try{
+        run();
+            socket_manager.send("create_or_rewrite_file " + file_path + " " + text.length());
+            socket_manager.send(text);
+            get_response();
+            stop();
+        } catch(Exception ex) {
+            stop();
+            throw ex;
+        }
     }
     public void change_file_data(String path, String new_name)  throws Exception {
-        String message = "change_file_data " + path;
-        if(new_name != null)
-        {
-            message += " --name " + new_name;
-        }
+        try {
+            String message = "change_file_data " + path;
+            if(new_name != null)
+            {
+                message += " --name " + new_name;
+            }
 
-        socket_manager.send(message);
-        get_response();
+            run();
+            socket_manager.send(message);
+            get_response();
+            stop();
+        } catch(Exception ex) {
+            stop();
+            throw ex;
+        }
     }
     public void replace_file(String old_path, String new_path)  throws Exception {
-        socket_manager.send("replace_file " + old_path + " " + new_path);
-        get_response();
+        try {
+            run();
+            socket_manager.send("replace_file " + old_path + " " + new_path);
+            get_response();
+            stop();
+        } catch(Exception ex) {
+            stop();
+            throw ex;
+        }
     }
     public void create_directory(String path)  throws Exception {
-        socket_manager.send("create_directory " + path);
-        get_response();
+        try {
+            run();
+            socket_manager.send("create_directory " + path);
+            get_response();
+            stop();
+        } catch(Exception ex) {
+            stop();
+            throw ex;
+        }
     }
     public void change_directory_data(String path, String new_name)  throws Exception {
-        String message = "change_directory_data " + path;
-        if(new_name != null)
-        {
-            message += " --name " + new_name;
-        }
+        try {
+            String message = "change_directory_data " + path;
+            if(new_name != null)
+            {
+                message += " --name " + new_name;
+            }
 
-        socket_manager.send(message);
-        get_response();
+            run();
+            socket_manager.send(message);
+            get_response();
+            stop();
+        } catch(Exception ex) {
+            stop();
+            throw ex;
+        }
     }
 }

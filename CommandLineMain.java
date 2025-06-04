@@ -49,13 +49,11 @@ class CommandLineMain {
             try {
                 var client = new CommandClient(address, port);
 
-                client.run();
                 var scanner = new Scanner(System.in);
 
                 boolean is_program_run = true;
                 while(is_program_run) {
                     try {
-                        client.refresh();
                         System.out.println("Enter command:");
                         String command = scanner.nextLine();
 
