@@ -93,6 +93,12 @@ class CommandLineMain {
                                     }
                                 }
                             }
+                            case "read" -> {
+                                System.out.println("Enter path:");
+                                String path = scanner.nextLine();
+
+                                System.out.println("Text:\n" + client.read(path));
+                            }
                             case "delete" -> {
                                 System.out.println("Enter path:");
                                 String path = scanner.nextLine();

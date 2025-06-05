@@ -12,6 +12,7 @@
 * help - print list of all commands
 * exit - exit program
 * show_files - show all files and directories in current directory
+* read - show file value
 * delete - delete file or directory
 * create_file - create new file
 * rewrite_file - rewrite file

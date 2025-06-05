@@ -79,6 +79,18 @@ public class CommandClient extends Client{
             throw ex;
         }
     }
+    public String read(String path) throws Exception {
+        try {
+            run();
+            socket_manager.send("read " + path);
+            String text = get_response();
+            stop();
+            return text;
+        } catch(Exception ex) {
+            stop();
+            throw ex;
+        }
+    }
     public void delete(String path)  throws Exception {
         try {
             run();
