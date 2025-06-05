@@ -71,7 +71,11 @@ public class SocketManager {
     public String read() throws Exception{
         if(is_run) {
             String response = new String(input_stream.readAllBytes(), StandardCharsets.UTF_8);
-            response = response.substring(0, response.indexOf('\000'));
+            long end = response.indexOf('\000');
+            if(end != -1)
+            {
+                response = response.substring(0, response.indexOf('\000'));
+            }
             return response;
         }
         else {
