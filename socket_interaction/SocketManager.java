@@ -6,11 +6,9 @@ import socket_interaction.errors.ClientIsStoped;
 import java.net.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
 public class SocketManager {
-    // Constants
-    private static final int BUFFER_SIZE = 1024;
-
     // Private variables
     private final String address;
     private final int port;
@@ -43,10 +41,9 @@ public class SocketManager {
     }
     public void send(String message) throws Exception{
         if(is_run) {
-            byte[] buffer = new byte[BUFFER_SIZE];
-            System.arraycopy(message.getBytes(), 0, buffer, 0, message.length());
+            byte[] message_bytes = message.getBytes();
 
-            output_stream.write(buffer);
+            output_stream.write(message_bytes);
         }
         else {
             throw new ClientIsStoped();
