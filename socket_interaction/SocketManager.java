@@ -9,6 +9,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 public class SocketManager {
+    // Constants
+    private static final int BUFFER_SIZE = 1024;
+
     // Private variables
     private final String address;
     private final int port;
@@ -41,9 +44,14 @@ public class SocketManager {
     }
     public void send(String message) throws Exception{
         if(is_run) {
+            byte[] buffer = new byte[BUFFER_SIZE];
             byte[] message_bytes = message.getBytes();
+            for(int i = 0; i < message.length(); i += BUFFER_SIZE) {
+                Arrays.fill(buffer, (byte) 0);
+                System.arraycopy(message_bytes, i, buffer, 0, Math.min(BUFFER_SIZE, message_bytes.length - i));
 
-            output_stream.write(message_bytes);
+                output_stream.write(buffer);
+            }
         }
         else {
             throw new ClientIsStoped();
