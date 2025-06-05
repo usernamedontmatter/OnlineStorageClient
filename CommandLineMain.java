@@ -60,7 +60,7 @@ class CommandLineMain {
                         switch (command) {
                             case "help" -> System.out.println("""
                                     exit - exit program
-                                    show_files - show all files and directories in current directory
+                                    show_files, ls - show all files and directories in current directory
                                     read - show file value
                                     delete - delete file or directory
                                     create_file - create new file
@@ -74,7 +74,7 @@ class CommandLineMain {
                                     rename_directory - change directory name
                                     """);
                             case "exit" -> is_program_run = false;
-                            case "show_files" -> {
+                            case "show_files", "ls" -> {
                                 System.out.println("Enter path:");
                                 String path = scanner.nextLine();
                                 var entries = client.show_files(path);
