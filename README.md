@@ -19,6 +19,7 @@
 * copy_file - copy file
 * create_or_rewrite_file - create file or rewrite if it's already exists
 * copy_or_rewrite_file - copy file or rewrite if it's already exists
+* rename - rename file or directory
 * rename_file - change file name
 * replace_file - change file path
 * create_directory - create new directory
