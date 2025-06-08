@@ -68,6 +68,7 @@ class CommandLineMain {
                                     copy_file - copy file
                                     create_or_rewrite_file - create file or rewrite if it's already exists
                                     copy_or_rewrite_file - copy file or rewrite if it's already exists
+                                    rename - rename file or directory
                                     rename_file - change file name
                                     replace_file - change file path
                                     create_directory - create new directory
@@ -159,6 +160,14 @@ class CommandLineMain {
                                 else {
                                     System.out.println("File doesn't exists");
                                 }
+                            }
+                            case "rename" -> {
+                                System.out.println("Enter path:");
+                                String path = scanner.nextLine();
+                                System.out.println("Enter new name:");
+                                String name = scanner.nextLine();
+
+                                client.change_data(path, name);
                             }
                             case "rename_file" -> {
                                 System.out.println("Enter path to file:");

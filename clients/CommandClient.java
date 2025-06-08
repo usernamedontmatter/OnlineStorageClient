@@ -102,6 +102,23 @@ public class CommandClient extends Client{
             throw ex;
         }
     }
+    public void change_data(String path, String new_name) throws Exception{
+        try {
+            String message = "change_data " + path;
+            if(new_name != null)
+            {
+                message += " --name " + new_name;
+            }
+
+            run();
+            socket_manager.send(message);
+            get_response();
+            stop();
+        } catch(Exception ex) {
+            stop();
+            throw ex;
+        }
+    }
     public void create_file(String file_path, String text)  throws Exception {
         try {
             run();
