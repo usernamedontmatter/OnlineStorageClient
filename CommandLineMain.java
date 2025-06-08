@@ -69,8 +69,7 @@ class CommandLineMain {
                                     create_or_rewrite_file - create file or rewrite if it's already exists
                                     copy_or_rewrite_file - copy file or rewrite if it's already exists
                                     rename - rename file or directory
-                                    rename_file - change file name
-                                    replace_file - change file path
+                                    replace - change path of file or directory
                                     create_directory - create new directory
                                     rename_directory - change directory name
                                     """);
@@ -177,13 +176,13 @@ class CommandLineMain {
 
                                 client.change_file_data(path, name);
                             }
-                            case "replace_file" -> {
+                            case "replace" -> {
                                 System.out.println("Enter old path:");
                                 String old_path = scanner.nextLine();
                                 System.out.println("Enter new path:");
                                 String new_path = scanner.nextLine();
 
-                                client.replace_file(old_path, new_path);
+                                client.replace(old_path, new_path);
                             }
                             case "create_directory" -> {
                                 System.out.println("Enter path to new directory:");
@@ -197,6 +196,15 @@ class CommandLineMain {
                                 String name = scanner.nextLine();
 
                                 client.change_directory_data(path, name);
+                            }
+                            // Outdated commands
+                            case "replace_file" -> {
+                                System.out.println("Enter old path:");
+                                String old_path = scanner.nextLine();
+                                System.out.println("Enter new path:");
+                                String new_path = scanner.nextLine();
+
+                                client.replace_file(old_path, new_path);
                             }
                             case null, default -> System.out.println("Command is unknown");
                         }

@@ -21,6 +21,9 @@
 * copy_or_rewrite_file - copy file or rewrite if it's already exists
 * rename - rename file or directory
 * rename_file - change file name
-* replace_file - change file path
+* replace - change file or dir path
 * create_directory - create new directory
 * rename_directory - change directory name
+
+Outdated commands:
+* replace_file - change file path

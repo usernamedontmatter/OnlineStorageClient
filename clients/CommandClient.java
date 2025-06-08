@@ -1,5 +1,8 @@
 package clients;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 public class CommandClient extends Client{
     // Inner classes
     public enum ResponseStatus {
@@ -102,12 +105,16 @@ public class CommandClient extends Client{
             throw ex;
         }
     }
-    public void change_data(String path, String new_name) throws Exception{
+    public void change_data(String path, String new_name, String new_path) throws Exception{
         try {
             String message = "change_data " + path;
             if(new_name != null)
             {
                 message += " --name " + new_name;
+            }
+            if(new_path != null)
+            {
+                message += " --dir " + new_path;
             }
 
             run();
@@ -118,6 +125,9 @@ public class CommandClient extends Client{
             stop();
             throw ex;
         }
+    }
+    public void change_data(String path, String new_name) throws Exception {
+        change_data(path, new_name, null);
     }
     public void create_file(String file_path, String text)  throws Exception {
         try {
@@ -172,16 +182,9 @@ public class CommandClient extends Client{
             throw ex;
         }
     }
-    public void replace_file(String old_path, String new_path)  throws Exception {
-        try {
-            run();
-            socket_manager.send("replace_file " + old_path + " " + new_path);
-            get_response();
-            stop();
-        } catch(Exception ex) {
-            stop();
-            throw ex;
-        }
+    public void replace(String old_path, String new_path) throws Exception {
+        Path path = Paths.get(new_path);
+        change_data(old_path, null, new_path);
     }
     public void create_directory(String path)  throws Exception {
         try {
@@ -204,6 +207,19 @@ public class CommandClient extends Client{
 
             run();
             socket_manager.send(message);
+            get_response();
+            stop();
+        } catch(Exception ex) {
+            stop();
+            throw ex;
+        }
+    }
+
+    // Outdated commands
+    public void replace_file(String old_path, String new_path)  throws Exception {
+        try {
+            run();
+            socket_manager.send("replace_file " + old_path + " " + new_path);
             get_response();
             stop();
         } catch(Exception ex) {
