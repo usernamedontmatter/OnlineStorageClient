@@ -1,3 +1,8 @@
+# UI client
+```
+./Desktop
+```
+
 # Command-line client
 ## Run client
 ```
@@ -7,7 +12,7 @@
 * server_address(optional) - web address of server
 * server_port(optional) - port of server
 
-## Commands
+## Command
 
 * help - print list of all commands
 * exit - exit program
