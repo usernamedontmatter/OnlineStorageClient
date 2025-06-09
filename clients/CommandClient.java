@@ -1,8 +1,5 @@
 package clients;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
 public class CommandClient extends Client{
     // Inner classes
     public enum ResponseStatus {
