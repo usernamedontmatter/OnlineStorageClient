@@ -45,6 +45,7 @@ public class DesktopMain extends Application{
         port_field.setFont(new Font(20));
         port_field.setAlignment(Pos.CENTER);
         port_field.setTranslateY(10);
+        port_field.setFocusTraversable(false);
 
         Button submit = new Button("Connect");
         submit.setMinSize(200, 40);
@@ -55,6 +56,7 @@ public class DesktopMain extends Application{
         submit.setTranslateX(50);
         submit.setStyle("-fx-background-color:white");
         submit.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        submit.setDefaultButton(true);
         submit.setOnAction(_ -> {
             try {
                 client = new CommandClient(address_field.getText(), Integer.parseInt(port_field.getText()));
@@ -117,6 +119,7 @@ public class DesktopMain extends Application{
         ok_button.setAlignment(Pos.CENTER);
         ok_button.setStyle("-fx-background-color:white");
         ok_button.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        ok_button.setDefaultButton(true);
         ok_button.setOnAction(_ -> stage.close());
 
         Group group = new Group(error_label, scroll_pane, ok_button);
@@ -150,6 +153,7 @@ public class DesktopMain extends Application{
             AnchorPane.setLeftAnchor(file_name, 0d);
 
             Button new_button = new Button();
+            new_button.setFocusTraversable(false);
             AnchorPane.setTopAnchor(new_button, 0d);
             AnchorPane.setLeftAnchor(new_button, 25d);
 
@@ -290,6 +294,7 @@ public class DesktopMain extends Application{
         back_button.setMaxWidth(50);
         back_button.setMinHeight(50);
         back_button.setMaxHeight(50);
+        back_button.setFocusTraversable(false);
         AnchorPane.setTopAnchor(back_button, 15d);
         AnchorPane.setLeftAnchor(back_button, 15d);
 
@@ -309,6 +314,7 @@ public class DesktopMain extends Application{
         disconnect_button.setMaxWidth(50);
         disconnect_button.setMinHeight(50);
         disconnect_button.setMaxHeight(50);
+        disconnect_button.setFocusTraversable(false);
         disconnect_button.setOnAction(_ -> {
             open_connect_window();
             stage.close();
@@ -325,6 +331,7 @@ public class DesktopMain extends Application{
         upload_button.setMaxWidth(50);
         upload_button.setMinHeight(50);
         upload_button.setMaxHeight(50);
+        upload_button.setFocusTraversable(false);
         AnchorPane.setTopAnchor(upload_button, 15d);
         AnchorPane.setRightAnchor(upload_button, 80d);
 
@@ -337,6 +344,7 @@ public class DesktopMain extends Application{
         refresh_button.setMaxWidth(50);
         refresh_button.setMinHeight(50);
         refresh_button.setMaxHeight(50);
+        refresh_button.setFocusTraversable(false);
         refresh_button.setOnAction(_ -> refresh_files_view_event.run());
         AnchorPane.setTopAnchor(refresh_button, 15d);
         AnchorPane.setRightAnchor(refresh_button, 145d);
@@ -350,6 +358,7 @@ public class DesktopMain extends Application{
         create_directory_button.setMaxWidth(50);
         create_directory_button.setMinHeight(50);
         create_directory_button.setMaxHeight(50);
+        create_directory_button.setFocusTraversable(false);
         create_directory_button.setOnAction(_ -> refresh_files_view_event.run());
         AnchorPane.setTopAnchor(create_directory_button, 15d);
         AnchorPane.setRightAnchor(create_directory_button, 210d);
@@ -419,6 +428,7 @@ public class DesktopMain extends Application{
         ok_button.setAlignment(Pos.CENTER);
         ok_button.setStyle("-fx-background-color:white");
         ok_button.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        ok_button.setDefaultButton(true);
         ok_button.setOnAction(_ -> stage.close());
 
         StackPane ok_button_pane = new StackPane(ok_button);
@@ -456,6 +466,7 @@ public class DesktopMain extends Application{
         submit.setTranslateX(50);
         submit.setStyle("-fx-background-color:white");
         submit.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        submit.setDefaultButton(true);
         submit.setOnAction(_ -> {
             try {
                 client.change_data(path, new_name_field.getText());
@@ -552,6 +563,7 @@ public class DesktopMain extends Application{
         submit.setTranslateX(50);
         submit.setStyle("-fx-background-color:white");
         submit.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        submit.setDefaultButton(true);
         submit.setOnAction(_ -> {
             try {
                 client.create_directory(path + "/" + name_field.getText());
