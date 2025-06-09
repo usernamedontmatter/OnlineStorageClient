@@ -165,6 +165,17 @@ public class DesktopMain extends Application{
                 try{
                     client.delete(path + "/" + el.name());
                     refresh_files_view_event.run();
+                } catch (clients.errors.RequestError ex){
+                    if(ex.type == CommandClient.ResponseStatus.DIRECTORY_NOT_EMPTY) {
+                        try {
+                            open_directory_no_empty_window(path + "/" + el.name());
+                        } catch (Exception e) {
+                            open_error_window(ex.getMessage());
+                        }
+                    }
+                    else {
+                        open_error_window(ex.getMessage());
+                    }
                 } catch(Exception ex) {
                     open_error_window(ex.getMessage());
                 }
@@ -433,6 +444,59 @@ public class DesktopMain extends Application{
         stage.setScene(scene);
         stage.show();
     }
+    private void open_directory_no_empty_window(String path) throws Exception{
+        Stage stage = new Stage();
+        AnchorPane layout = new AnchorPane();
+
+        Label message_label = new Label("       Directory isn't empty.\nDo you still want to delete it?");
+        message_label.setFont(new Font(30));
+        message_label.setAlignment(Pos.CENTER);
+        message_label.prefWidthProperty().bind(layout.widthProperty());
+        AnchorPane.setTopAnchor(message_label, 100d);
+
+        Button yes_button = new Button("YES");
+        yes_button.setMinSize(100, 60);
+        yes_button.setMaxSize(100, 60);
+        yes_button.setLayoutY(300);
+        yes_button.setLayoutX(75);
+        yes_button.setTranslateX(200);
+        yes_button.setFont(new Font(20));
+        yes_button.setAlignment(Pos.CENTER);
+        yes_button.setStyle("-fx-background-color:white");
+        yes_button.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        yes_button.setOnAction(_ -> {
+            try {
+                client.delete_all(path);
+                refresh_files_view_event.run();
+            } catch (Exception ex) {
+                open_error_window(ex + " " + ex.getMessage());
+            }
+
+            stage.close();
+        });
+
+        Button no_button = new Button("NO");
+        no_button.setMinSize(100, 60);
+        no_button.setMaxSize(100, 60);
+        no_button.setLayoutY(300);
+        no_button.setLayoutX(-75);
+        no_button.setTranslateX(200);
+        no_button.setFont(new Font(20));
+        no_button.setAlignment(Pos.CENTER);
+        no_button.setStyle("-fx-background-color:white");
+        no_button.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        no_button.setOnAction(_ -> stage.close());
+
+        layout.getChildren().addAll(message_label, yes_button ,no_button);
+
+        Scene scene = new Scene(layout);
+
+        stage.setHeight(500);
+        stage.setWidth(500);
+        stage.setResizable(false);
+        stage.setScene(scene);
+        stage.show();
+    }
 
     // Public Functions
     public static void main(String[] args) {
@@ -440,7 +504,7 @@ public class DesktopMain extends Application{
     }
 
     @Override
-    public void start(Stage stage) {
+    public void start(Stage stage) throws Exception{
         open_connect_window(stage);
     }
 }

@@ -104,7 +104,20 @@ class CommandLineMain {
                                 System.out.println("Enter path:");
                                 String path = scanner.nextLine();
 
-                                client.delete(path);
+                                try
+                                {
+                                    client.delete(path);
+                                } catch (clients.errors.RequestError ex) {
+                                    if(ex.type == CommandClient.ResponseStatus.DIRECTORY_NOT_EMPTY) {
+                                        System.out.println("Directory isn't empty. If you still want to delete it write 'YES'");
+                                        if(scanner.nextLine().equals("YES")) {
+                                            client.delete_all(path);
+                                        }
+                                    }
+                                    else {
+                                        throw ex;
+                                    }
+                                }
                             }
                             case "create_file" -> {
                                 System.out.println("Enter path:");

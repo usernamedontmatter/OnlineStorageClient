@@ -14,6 +14,7 @@ public class CommandClient extends Client{
         INCORRECT_ARGUMENTS(3),
         INCORRECT_COMMAND(4),
         COMMAND_CANT_BE_EXECUTED(5),
+        DIRECTORY_NOT_EMPTY(6),
 
         // Server Errors
         SERVER_ERROR(129);
@@ -89,6 +90,17 @@ public class CommandClient extends Client{
             String text = get_response();
             stop();
             return text;
+        } catch(Exception ex) {
+            stop();
+            throw ex;
+        }
+    }
+    public void delete_all(String path)  throws Exception {
+        try {
+            run();
+            socket_manager.send("delete_all " + path);
+            get_response();
+            stop();
         } catch(Exception ex) {
             stop();
             throw ex;
