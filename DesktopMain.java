@@ -2,6 +2,7 @@ import clients.CommandClient;
 
 import javafx.application.Application;
 
+import javafx.application.Platform;
 import javafx.event.*;
 import javafx.geometry.*;
 import javafx.scene.*;
@@ -83,6 +84,7 @@ public class DesktopMain extends Application{
         stage.setMinHeight(300);
         stage.setMinWidth(350);
         stage.setScene(scene);
+        stage.setOnCloseRequest(_ -> Platform.exit());
         stage.show();
     }
     private void open_connect_window() {
@@ -381,6 +383,8 @@ public class DesktopMain extends Application{
         stage.setWidth(1500);
         stage.setHeight(900);
         stage.setScene(scene);
+        stage.setOnCloseRequest(_ -> Platform.exit());
+
         stage.show();
 
         refresh_files_view_event = () -> {
