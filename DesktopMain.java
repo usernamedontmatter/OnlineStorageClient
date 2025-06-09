@@ -442,7 +442,7 @@ public class DesktopMain extends Application{
         stage.setScene(scene);
         stage.show();
     }
-    private void open_directory_no_empty_window(String path) throws Exception{
+    private void open_directory_no_empty_window(String path) {
         Stage stage = new Stage();
         AnchorPane layout = new AnchorPane();
 
