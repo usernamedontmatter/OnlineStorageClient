@@ -39,7 +39,7 @@ public class CommandClient extends Client{
         FILE,
         DIRECTORY,
     }
-    public record DirectoryEntry(DirectoryEntryType type, String name){};
+    public record DirectoryEntry(DirectoryEntryType type, String name){}
 
     // Private functions
     private String get_response() throws Exception{
@@ -195,7 +195,6 @@ public class CommandClient extends Client{
         }
     }
     public void replace(String old_path, String new_path) throws Exception {
-        Path path = Paths.get(new_path);
         change_data(old_path, null, new_path);
     }
     public void create_directory(String path)  throws Exception {

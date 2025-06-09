@@ -65,7 +65,7 @@ public class DesktopMain extends Application{
             } catch (UnknownHostException ex) {
                 open_error_window("Address is incorrect");
             } catch (Exception ex) {
-                open_error_window(ex.toString() + " " + ex.getMessage());
+                open_error_window(ex + " " + ex.getMessage());
             }
         });
 
@@ -204,7 +204,7 @@ public class DesktopMain extends Application{
                     try {
                         open_file_view_window(path + "/" + el.name());
                     } catch (Exception ex) {
-                        open_error_window(ex.toString() + " " + ex.getMessage());
+                        open_error_window(ex + " " + ex.getMessage());
                     }
                 };
                 open_menu_item.setOnAction(event);
@@ -313,9 +313,7 @@ public class DesktopMain extends Application{
         refresh_button.setMaxWidth(50);
         refresh_button.setMinHeight(50);
         refresh_button.setMaxHeight(50);
-        refresh_button.setOnAction(_ -> {
-            refresh_files_view_event.run();
-        });
+        refresh_button.setOnAction(_ -> refresh_files_view_event.run());
         AnchorPane.setTopAnchor(refresh_button, 15d);
         AnchorPane.setRightAnchor(refresh_button, 145d);
 
