@@ -29,6 +29,7 @@
 * replace - change file or dir path
 * create_directory - create new directory
 * rename_directory - change directory name
+* download_file - download file
 
 Outdated commands:
 * replace_file - change file path

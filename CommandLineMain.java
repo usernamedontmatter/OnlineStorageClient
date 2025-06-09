@@ -1,5 +1,6 @@
 import clients.CommandClient;
 
+import java.io.FileOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.Scanner;
@@ -72,6 +73,7 @@ class CommandLineMain {
                                     replace - change path of file or directory
                                     create_directory - create new directory
                                     rename_directory - change directory name
+                                    download_file - download file
                                     """);
                             case "exit" -> is_program_run = false;
                             case "show_files", "ls" -> {
@@ -209,6 +211,14 @@ class CommandLineMain {
                                 String name = scanner.nextLine();
 
                                 client.change_directory_data(path, name);
+                            }
+                            case "download_file" -> {
+                                System.out.println("Enter path to file to download:");
+                                String path = scanner.nextLine();
+                                String file_content = client.read(path);
+                                System.out.println("Enter path to directory of downloading:");
+                                var file = new FileOutputStream(scanner.nextLine());
+                                file.write(file_content.getBytes());
                             }
                             // Outdated commands
                             case "replace_file" -> {

@@ -15,6 +15,7 @@ import javafx.scene.text.Font;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.net.UnknownHostException;
 
 import java.nio.charset.StandardCharsets;
@@ -160,6 +161,28 @@ public class DesktopMain extends Application{
             MenuItem open_menu_item = new MenuItem("open");
             MenuItem rename_menu_item = new MenuItem("rename");
             rename_menu_item.setOnAction(_ -> open_change_name_window(path + "/" + el.name()));
+            MenuItem download_menu_item = new MenuItem("download");
+            download_menu_item.setOnAction(_ -> {
+                try {
+                    DirectoryChooser download_file_chooser = new DirectoryChooser();
+                    File directory = download_file_chooser.showDialog(stage);
+
+                    if(directory != null) {
+                        if(new File(directory + "/" + el.name()).exists()) {
+                            open_error_window("File already exists");
+                        }
+                        else if(directory.isDirectory() && directory.exists()) {
+                            var file = new FileOutputStream(directory + "/" + el.name());
+                            file.write(client.read(path + "/" + el.name()).getBytes());
+                        }
+                        else {
+                            open_error_window("You must choose directory");
+                        }
+                    }
+                } catch(Exception ex) {
+                    open_error_window(ex.getMessage());
+                }
+            });
             MenuItem delete_menu_item = new MenuItem("delete");
             delete_menu_item.setOnAction(_ -> {
                 try{
@@ -180,7 +203,7 @@ public class DesktopMain extends Application{
                     open_error_window(ex.getMessage());
                 }
             });
-            menu.getItems().addAll(open_menu_item, rename_menu_item, delete_menu_item);
+            menu.getItems().addAll(open_menu_item, rename_menu_item, download_menu_item, delete_menu_item);
             new_button.setContextMenu(menu);
 
             ImageView new_button_image_view = new ImageView();
