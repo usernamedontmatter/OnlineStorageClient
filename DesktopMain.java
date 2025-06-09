@@ -129,7 +129,7 @@ public class DesktopMain extends Application{
         stage.setScene(scene);
         stage.show();
     }
-    private void refresh_files_view(Stage stage, String new_path, FlowPane files_box, Label path_label, Button upload_button, Button back_button) throws Exception{
+    private void refresh_files_view(Stage stage, String new_path, FlowPane files_box, Label path_label, Button upload_button, Button back_button, Button create_directory_button) throws Exception{
         String path = Paths.get(new_path).normalize().toString();
         var entries = client.show_files(path);
         path_label.setText(path);
@@ -270,10 +270,11 @@ public class DesktopMain extends Application{
             }
         });
 
+        create_directory_button.setOnAction(_ -> open_create_directory_window(path));
         main_path = path;
     }
-    private void refresh_files_view(Stage stage, FlowPane files_box, Label path_label, Button upload_button, Button back_button) throws Exception {
-        refresh_files_view(stage, main_path, files_box, path_label, upload_button, back_button);
+    private void refresh_files_view(Stage stage, FlowPane files_box, Label path_label, Button upload_button, Button back_button, Button create_directory_button) throws Exception {
+        refresh_files_view(stage, main_path, files_box, path_label, upload_button, back_button, create_directory_button);
     }
     private void open_directory_view_window(String path) throws Exception {
         Stage stage = new Stage();
@@ -340,7 +341,20 @@ public class DesktopMain extends Application{
         AnchorPane.setTopAnchor(refresh_button, 15d);
         AnchorPane.setRightAnchor(refresh_button, 145d);
 
-        AnchorPane top_group = new AnchorPane(back_button, path_label, disconnect_button, upload_button, refresh_button);
+        Button create_directory_button = new Button();
+        ImageView create_directory_button_image_view = new ImageView("static_files/images/create_directory.png");
+        create_directory_button_image_view.setFitHeight(50);
+        create_directory_button_image_view.setFitWidth(50);
+        create_directory_button.setGraphic(create_directory_button_image_view);
+        create_directory_button.setMinWidth(50);
+        create_directory_button.setMaxWidth(50);
+        create_directory_button.setMinHeight(50);
+        create_directory_button.setMaxHeight(50);
+        create_directory_button.setOnAction(_ -> refresh_files_view_event.run());
+        AnchorPane.setTopAnchor(create_directory_button, 15d);
+        AnchorPane.setRightAnchor(create_directory_button, 210d);
+
+        AnchorPane top_group = new AnchorPane(back_button, path_label, disconnect_button, upload_button, refresh_button, create_directory_button);
         top_group.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(0, 0, 1, 0))));
         top_group.setMinHeight(80);
         top_group.setMaxHeight(80);
@@ -350,7 +364,7 @@ public class DesktopMain extends Application{
         AnchorPane.setRightAnchor(files_box, 0d);
         AnchorPane.setBottomAnchor(files_box, 0d);
         AnchorPane.setLeftAnchor(files_box, 10d);
-        refresh_files_view(stage, path, files_box, path_label, upload_button, back_button);
+        refresh_files_view(stage, path, files_box, path_label, upload_button, back_button, create_directory_button);
 
         layout.getChildren().addAll(top_group, files_box);
         Scene scene = new Scene(layout);
@@ -362,7 +376,7 @@ public class DesktopMain extends Application{
 
         refresh_files_view_event = () -> {
             try {
-                refresh_files_view(stage, files_box, path_label, upload_button, back_button);
+                refresh_files_view(stage, files_box, path_label, upload_button, back_button, create_directory_button);
             } catch (Exception ex) {
                 open_error_window(ex + " " + ex.getMessage());
             }
@@ -515,6 +529,49 @@ public class DesktopMain extends Application{
         stage.setHeight(500);
         stage.setWidth(500);
         stage.setResizable(false);
+        stage.setScene(scene);
+        stage.show();
+    }
+    private void open_create_directory_window(String path) {
+        Stage stage = new Stage();
+
+        TextField name_field = new TextField();
+        name_field.setPromptText("Enter directory name");
+        name_field.setMinSize(300, 50);
+        name_field.setMaxSize(300, 50);
+        name_field.setFont(new Font(20));
+        name_field.setAlignment(Pos.CENTER);
+        name_field.isHover();
+
+        Button submit = new Button("Create");
+        submit.setMinSize(200, 40);
+        submit.setMaxSize(200, 40);
+        submit.setFont(new Font(20));
+        submit.setAlignment(Pos.CENTER);
+        submit.setTranslateY(30);
+        submit.setTranslateX(50);
+        submit.setStyle("-fx-background-color:white");
+        submit.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        submit.setOnAction(_ -> {
+            try {
+                client.create_directory(path + "/" + name_field.getText());
+                refresh_files_view_event.run();
+                stage.close();
+            } catch (Exception ex) {
+                open_error_window(ex + " " + ex.getMessage());
+            }
+        });
+
+        VBox control_panel = new VBox(name_field, submit);
+
+        StackPane layout = new StackPane(new Group(control_panel));
+        StackPane.setAlignment(control_panel, Pos.TOP_CENTER);
+
+        Scene scene = new Scene(layout);
+        stage.setHeight(500);
+        stage.setWidth(750);
+        stage.setMinHeight(300);
+        stage.setMinWidth(350);
         stage.setScene(scene);
         stage.show();
     }
